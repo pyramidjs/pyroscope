@@ -1,0 +1,30 @@
+{
+  "name": "@pyramid/pyroscope",
+  "version": "0.1.0",
+  "description": "Yet another blog engine",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/pyramidjs/pyroscope.git"
+  },
+  "keywords": [
+    "blog",
+    "cms",
+    "template",
+    "website",
+    "articles"
+  ],
+  "author": "Sean Cheung",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/pyramidjs/pyroscope/issues"
+  },
+  "homepage": "https://github.com/pyramidjs/pyroscope#readme",
+  "dependencies": {
+    "@pyramid/configure": "^0.2.1",
+    "knex": "^0.14.2"
+  }
+}
