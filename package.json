@@ -4,6 +4,7 @@
   "description": "Yet another blog engine",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon -e js,json,html -i tests -i public ./",
     "test": "mocha test"
   },
   "repository": {
@@ -25,6 +26,13 @@
   "homepage": "https://github.com/pyramidjs/pyroscope#readme",
   "dependencies": {
     "@pyramid/configure": "^0.2.1",
-    "knex": "^0.14.2"
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
+    "knex": "^0.14.2",
+    "morgan": "^1.9.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.14.7"
   }
 }

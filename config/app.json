@@ -1,0 +1,17 @@
+{
+    "tag": {
+        "$env": ["APP_TAG", "pyroscope"]
+    },
+    "host": {
+        "$env": ["APP_HOST", "0.0.0.0"]
+    },
+    "port": {
+        "$env": ["APP_PORT", 9000]
+    },
+    "secret": {
+        "$env": "APP_SECRET"
+    },
+    "debug": {
+        "$env": "DEBUG"
+    }
+}

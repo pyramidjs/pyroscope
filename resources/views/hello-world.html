@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+</head>
+
+<body>
+    <div ps-if="visible">
+        <h1>{{status}}
+            <small>{{desc.toUpperCase()}}</small>
+        </h1>
+        <p>{{content}}</p>
+        <pre>{{markup}}</pre>
+        <ol ps-for="item in Object.entries(items)">
+            <li>
+                <span>{{$index}}</span>
+                <ul ps-for="prop in item">
+                    <li>
+                        {{prop}}
+                    </li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+    <div ps-else>
+        asperiores ut rerum
+    </div>
+</body>
+
+</html>

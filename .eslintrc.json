@@ -1,0 +1,52 @@
+{
+    "env": {
+        "es6": true,
+        "node": true
+    },
+    "extends": "eslint:recommended",
+    "globals": {
+        "$use": true,
+        "$inject": true,
+        "$eject": true
+    },
+    "parserOptions": {
+        "ecmaVersion": 8
+    },
+    "rules": {
+        "indent": ["error", 4],
+        "quotes": ["error", "single"],
+        "semi": ["error", "always"],
+        "no-else-return": ["error"],
+        "no-invalid-this": ["error"],
+        "no-return-await": ["error"],
+        "require-await": ["error"],
+        "array-bracket-spacing": ["error", "never"],
+        "array-bracket-newline": ["error"],
+        "brace-style": ["error", "1tbs"],
+        "block-spacing": ["error", "always"],
+        "comma-dangle": ["error", "only-multiline"],
+        "comma-spacing": ["error"],
+        "key-spacing": ["error"],
+        "keyword-spacing": ["error"],
+        "new-parens": ["error"],
+        "no-lonely-if": ["error"],
+        "no-multiple-empty-lines": ["error"],
+        "padding-line-between-statements": [
+            "error",
+            { "blankLine": "always", "prev": "*", "next": "function" },
+            { "blankLine": "always", "prev": "*", "next": "return" }
+        ],
+        "padded-blocks": ["error", { "classes": "always" }],
+        "no-multi-spaces": ["error"],
+        "no-trailing-spaces": ["error"],
+        "no-unneeded-ternary": ["error"],
+        "object-curly-newline": ["error"],
+        "object-curly-spacing": ["error", "always"],
+        "space-infix-ops": ["error"],
+        "space-unary-ops": [2],
+        "no-useless-constructor": ["error"],
+        "no-var": ["error"],
+        "prefer-const": ["error"],
+        "prefer-rest-params": ["error"]
+    }
+}
