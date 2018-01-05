@@ -22,7 +22,10 @@ function unescape(val) {
     });
 }
 
-function replace(text, context) {
+function replace(text, context, settings) {
+    const lp = settings.lp;
+    const rp = settings.rp;
+
     return text.replace(/\{\{([^{}]+)\}\}/g, (match, capture) => {
         try {
             return vm.runInContext(unescape(capture), context);
@@ -34,32 +37,37 @@ function replace(text, context) {
     });
 }
 
-function compile(html, options) {
+function compile(html, options, settings) {
     const dom = cheerio.load(html);
+    const prefix = (settings && settings.prefix) || 'ps';
+    const lp = (settings && settings.lp) || '{{';
+    const rp = (settings && settings.rp) || '}}';
 
-    return traverse(dom.root(), options).html();
+    return traverse(dom.root(), options, { prefix, lp, rp }).html();
 }
 
-function traverse(html, options) {
+function traverse(html, options, settings) {
     const context = vm.createContext(options);
     const $ = cheerio(html);
-    if ($.attr('ps-if')) {
+    const prefix = settings.prefix;
+
+    if ($.attr(`${prefix}-if`)) {
         try {
-            const res = vm.runInContext($.attr('ps-if'), context);
+            const res = vm.runInContext($.attr(`${prefix}-if`), context);
             if (!res) {
                 $.remove();
-                $.next('*[ps-else]').removeAttr('ps-else');
+                $.next(`*[${prefix}-else]`).removeAttr(`${prefix}-else`);
 
                 return $;
             }
-            $.removeAttr('ps-if');
-            $.next('*[ps-else]').remove();
+            $.removeAttr(`${prefix}-if`);
+            $.next(`*[${prefix}-else]`).remove();
         } catch (error) {
             debug(error);
         }
     }
-    if ($.attr('ps-for')) {
-        const val = $.attr('ps-for');
+    if ($.attr(`${prefix}-for`)) {
+        const val = $.attr(`${prefix}-for`);
         const args = val.split(/\s+/);
         if (args.length === 3 && /^(in|of)$/.test(args[1])) {
             const name = args[0];
@@ -70,14 +78,18 @@ function traverse(html, options) {
                     const temp = $.html();
                     $.children().remove();
                     res.forEach((v, i) => {
-                        const child = traverse(temp, {
-                            [name]: v,
-                            $index: i,
-                            $parent: options
-                        });
+                        const child = traverse(
+                            temp,
+                            {
+                                [name]: v,
+                                $index: i,
+                                $parent: options
+                            },
+                            settings
+                        );
                         $.append(child);
                     });
-                    $.removeAttr('ps-for');
+                    $.removeAttr(`${prefix}-for`);
                 }
             } catch (error) {
                 debug(error);
@@ -85,12 +97,12 @@ function traverse(html, options) {
         }
     } else {
         $.children().each((i, e) => {
-            cheerio(e).html(traverse(e, options).html());
+            cheerio(e).html(traverse(e, options, settings).html());
         });
     }
 
     // if ($.html()) {
-    //     $.html(replace($.html(), context));
+    //     $.html(replace($.html(), context, settings));
     // }
     //TODO: li
 
@@ -98,14 +110,14 @@ function traverse(html, options) {
 }
 
 module.exports = {
-    express(app, engine) {
+    express(app, engine, settings) {
         app.engine(engine, (filePath, options, callback) => {
             fs.readFile(filePath, 'utf8', (err, content) => {
                 if (err) {
                     callback(err);
                 } else {
                     try {
-                        content = compile(content, options);
+                        content = compile(content, options, settings);
                         callback(null, content);
                     } catch (err) {
                         callback(err);
