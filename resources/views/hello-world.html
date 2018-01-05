@@ -9,24 +9,20 @@
 </head>
 
 <body>
-    <div ps-if="visible">
+    <div v-if="visible">
         <h1>{{status}}
-            <small>{{desc.toUpperCase()}}</small>
+            <small>{{desc | capitalize}}</small>
         </h1>
         <p>{{content}}</p>
         <pre>{{markup}}</pre>
-        <ol ps-for="item in Object.entries(items)">
-            <li>
-                <span>{{$index}}</span>
-                <ul ps-for="prop in item">
-                    <li>
-                        {{prop}}
-                    </li>
-                </ul>
+        <ol>
+            <li v-for="item in items">
+                <child :message="item"></child>
             </li>
         </ol>
+        <my-component :status="status"></my-component>
     </div>
-    <div ps-else>
+    <div v-else>
         asperiores ut rerum
     </div>
 </body>
