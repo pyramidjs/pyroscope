@@ -1,0 +1,6 @@
+{
+    "engine": "html",
+    "path": {
+        "$path": "app/renderer"
+    }
+}

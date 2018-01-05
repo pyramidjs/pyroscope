@@ -1,0 +1,12 @@
+{
+    "/": {
+        "controllers": {
+            "$path": "routes/web"
+        }
+    },
+    "/api/v1": {
+        "controllers": {
+            "$path": "routes/api"
+        }
+    }
+}

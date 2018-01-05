@@ -1,0 +1,22 @@
+{
+    "resources": {
+        "$path": {
+            "$env": ["PATH_RESOURCES", "resources"]
+        }
+    },
+    "views": {
+        "$path": {
+            "$env": ["PATH_VIEWS", "resources/views"]
+        }
+    },
+    "public": {
+        "$path": {
+            "$env": ["PATH_PUBLIC", "public"]
+        }
+    },
+    "storage": {
+        "$path": {
+            "$env": ["PATH_STORAGE", "storage"]
+        }
+    }
+}
