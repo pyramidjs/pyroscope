@@ -1,4 +1,6 @@
 module.exports = {
+    name: '/api/v1',
+
     index: {
         name: '/',
         method: 'post',

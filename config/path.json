@@ -1,4 +1,14 @@
 {
+    "database": {
+        "$path": {
+            "$env": ["PATH_DATABASE", "database"]
+        }
+    },
+    "routes": {
+        "$path": {
+            "$env": ["PATH_ROUTES", "routes"]
+        }
+    },
     "resources": {
         "$path": {
             "$env": ["PATH_RESOURCES", "resources"]

@@ -45,13 +45,8 @@ if (config.path.public) {
 /**
  * Routes
  */
-if (config.routes) {
-    const mount = require('./mount');
-    Object.keys(config.routes).forEach(key => {
-        const router = express.Router(config.routes[key].options);
-        mount(router, config.routes[key].controllers);
-        app.use(key, router);
-    });
+if (config.path.routes) {
+    require('./boot')(app, express.Router, config.path.routes);
 }
 
 /**
