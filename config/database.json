@@ -1,1 +1,74 @@
-{}
+{
+    "client": {
+        "$env": ["DB_CLIENT", "sqlite3"]
+    },
+    "debug": {
+        "$env": ["DB_DEBUG", false]
+    },
+    "pool": {
+        "min": {
+            "$number": {
+                "$env": ["DB_POOL_MIN", 2]
+            }
+        },
+        "max": {
+            "$number": {
+                "$env": ["DB_POOL_MAX", 10]
+            }
+        }
+    },
+    "connection": {
+        "$env": [
+            "DB_CONNECTION",
+            {
+                "host": {
+                    "$env": ["DB_HOST", "localhost"]
+                },
+                "user": {
+                    "$env": "DB_USER"
+                },
+                "password": {
+                    "$env": "DB_PASSWORD"
+                },
+                "database": {
+                    "$env": "DB_DATABASE"
+                },
+                "filename": {
+                    "$path": {
+                        "$env": ["DB_FILENAME", "database.sqlite"]
+                    }
+                }
+            }
+        ]
+    },
+    "acquireConnectionTimeout": {
+        "$env": ["DB_CONN_TIMEOUT", 60000]
+    },
+    "migrations": {
+        "directory": {
+            "$path": {
+                "$env": ["DB_MIGRATIONS_PATH", "database/migrations"]
+            }
+        },
+        "extension": "js",
+        "tableName": {
+            "$env": ["DB_MIGRATIONS_TABLE", "__migrations__"]
+        },
+        "disableTransactions": false,
+        "loadExtensions": [".js"],
+        "stub": {
+            "$path": "database/stubs/migration.stub"
+        }
+    },
+    "seeds": {
+        "directory": {
+            "$path": {
+                "$env": ["DB_SEEDS_PATH", "database/seeds"]
+            }
+        },
+        "loadExtensions": [".js"],
+        "stub": {
+            "$path": "database/stubs/seed.stub"
+        }
+    }
+}

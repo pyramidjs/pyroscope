@@ -1,0 +1,7 @@
+/*eslint no-unused-vars: off*/
+
+function seed(knex, Promise) {
+
+}
+
+module.exports = { seed };

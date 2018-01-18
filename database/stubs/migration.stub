@@ -1,0 +1,11 @@
+/*eslint no-unused-vars: off*/
+
+function up(knex, Promise) {
+
+}
+
+function down(knex, Promise) {
+
+}
+
+module.exports = { up, down };
