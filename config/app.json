@@ -13,5 +13,8 @@
     },
     "debug": {
         "$env": "DEBUG"
+    },
+    "logger": {
+        "$env": ["APP_LOGGER", "combined"]
     }
 }

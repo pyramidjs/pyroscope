@@ -17,7 +17,7 @@ app.set('port', config.app.port);
 /**
  * set request logger
  */
-app.use(morgan('dev', { stream: { write: debug } }));
+app.use(morgan(config.app.logger, { stream: { write: debug } }));
 
 /**
  * body parser
