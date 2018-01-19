@@ -4,7 +4,9 @@ const chalk = require('chalk');
 
 program
     .version('0.1.0')
-    .option('-e, --env <environment>', 'set environment', 'development');
+    .option('-e, --env <environment>', 'set environment', 'development')
+    .option('-w, --wrokdir <dir>', 'change work directory')
+    .option('--debug <tag>', 'debug tag');
 
 program
     .command('config:show')
@@ -77,6 +79,17 @@ program.parse(process.argv);
 function env() {
     if (program.env) {
         process.env.NODE_ENV = program.env;
+    }
+    if (program.debug) {
+        process.env.DEBUG = program.debug;
+    }
+    if (program.wrokdir) {
+        process.chdir(program.wrokdir);
+        console.log(
+            chalk.yellow(
+                `workdir changed to ${chalk.bold(chalk.blue(process.cwd()))}`
+            )
+        );
     }
     console.log(
         chalk.yellow(
