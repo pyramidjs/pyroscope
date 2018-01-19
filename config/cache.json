@@ -1,1 +1,16 @@
-{}
+{
+    "driver": {
+        "$env": ["CACHE_DRIVER", "memory"]
+    },
+    "host": {
+        "$env": ["CACHE_HOST", "localhost"]
+    },
+    "port": {
+        "$number": {
+            "$env": ["CACHE_PORT", 6379]
+        }
+    },
+    "prefix": {
+        "$env": ["CACHE_PREFIX", "pyroscope:"]
+    }
+}

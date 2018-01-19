@@ -10,31 +10,61 @@ program
     .command('config:show')
     .description('show config')
     .action(env)
-    .action(show);
+    .action(config_show);
 
 program
     .command('db:status')
     .description('show migration status')
     .action(env)
-    .action(wrap(status));
+    .action(wrap(db_status));
 
 program
     .command('db:migrate')
     .description('run migrations')
     .action(env)
-    .action(wrap(migrate));
+    .action(wrap(db_migrate));
 
 program
     .command('db:rollback')
     .description('rollback migrations')
     .action(env)
-    .action(wrap(rollback));
+    .action(wrap(db_rollback));
 
 program
     .command('db:seed')
     .description('run seeds')
     .action(env)
-    .action(wrap(seed));
+    .action(wrap(db_seed));
+
+program
+    .command('cache:keys')
+    .description('show cached keys')
+    .action(env)
+    .action(wrap(cache_keys));
+
+program
+    .command('cache:get <key>')
+    .description('get cache value by key')
+    .action(env)
+    .action(wrap(cache_get));
+
+program
+    .command('cache:set <key> <value>')
+    .description('set cache value')
+    .action(env)
+    .action(wrap(cache_set));
+
+program
+    .command('cache:del <key>')
+    .description('delete cache value by key')
+    .action(env)
+    .action(wrap(cache_del));
+
+program
+    .command('cache:flush')
+    .description('flush cache')
+    .action(env)
+    .action(wrap(cache_flush));
 
 program
     .command('make <migration|seed> <name>')
@@ -66,14 +96,14 @@ function wrap(func) {
     };
 }
 
-function show() {
+function config_show() {
     const config = require('@pyramid/configure');
     const util = require('util');
     delete config.__;
     console.log(util.inspect(config, false, null, true));
 }
 
-async function status() {
+async function db_status() {
     const config = require('@pyramid/configure');
     const knex = require('knex')(config.database);
     const version = await knex.migrate.currentVersion();
@@ -81,7 +111,7 @@ async function status() {
     console.log(version);
 }
 
-async function migrate() {
+async function db_migrate() {
     const config = require('@pyramid/configure');
     const knex = require('knex')(config.database);
 
@@ -94,7 +124,7 @@ async function migrate() {
     }
 }
 
-async function seed() {
+async function db_seed() {
     const config = require('@pyramid/configure');
     const knex = require('knex')(config.database);
     const [files] = await knex.seed.run();
@@ -106,7 +136,7 @@ async function seed() {
     }
 }
 
-async function rollback() {
+async function db_rollback() {
     const config = require('@pyramid/configure');
     const knex = require('knex')(config.database);
     const [, files] = await knex.migrate.rollback();
@@ -116,6 +146,45 @@ async function rollback() {
     } else {
         console.log(chalk.yellow('nothing to rollback'));
     }
+}
+
+async function cache_keys() {
+    const config = require('@pyramid/configure');
+    const cache = require('./cache')(config.cache);
+    const keys = await cache.keys();
+    await cache.close();
+    if (keys.length > 0) {
+        console.log(keys.join('\n'));
+    }
+}
+
+async function cache_get(key) {
+    const config = require('@pyramid/configure');
+    const cache = require('./cache')(config.cache);
+    const value = await cache.get(key);
+    await cache.close();
+    console.log(value);
+}
+
+async function cache_set(key, value) {
+    const config = require('@pyramid/configure');
+    const cache = require('./cache')(config.cache);
+    await cache.set(key, value);
+    await cache.close();
+}
+
+async function cache_del(key) {
+    const config = require('@pyramid/configure');
+    const cache = require('./cache')(config.cache);
+    await cache.del(key);
+    await cache.close();
+}
+
+async function cache_flush() {
+    const config = require('@pyramid/configure');
+    const cache = require('./cache')(config.cache);
+    await cache.flush();
+    await cache.close();
 }
 
 async function make(type, name) {
