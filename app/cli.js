@@ -77,6 +77,7 @@ async function status() {
     const config = require('@pyramid/configure');
     const knex = require('knex')(config.database);
     const version = await knex.migrate.currentVersion();
+    await knex.destroy();
     console.log(version);
 }
 
@@ -85,6 +86,7 @@ async function migrate() {
     const knex = require('knex')(config.database);
 
     const [, files] = await knex.migrate.latest();
+    await knex.destroy();
     if (files.length > 0) {
         console.log(chalk.green(files.join('\n')));
     } else {
@@ -96,6 +98,7 @@ async function seed() {
     const config = require('@pyramid/configure');
     const knex = require('knex')(config.database);
     const [files] = await knex.seed.run();
+    await knex.destroy();
     if (files.length > 0) {
         console.log(chalk.green(files.join('\n')));
     } else {
@@ -107,6 +110,7 @@ async function rollback() {
     const config = require('@pyramid/configure');
     const knex = require('knex')(config.database);
     const [, files] = await knex.migrate.rollback();
+    await knex.destroy();
     if (files.length > 0) {
         console.log(chalk.blue(files.join('\n')));
     } else {
@@ -121,6 +125,7 @@ async function make(type, name) {
         const knex = require('knex')(config.database);
         const inflection = require('inflection');
         const file = await knex.migrate.make(inflection.underscore(name));
+        await knex.destroy();
         console.log(chalk.green(file));
         break;
     }
@@ -129,11 +134,11 @@ async function make(type, name) {
         const knex = require('knex')(config.database);
         const inflection = require('inflection');
         const file = await knex.seed.make(inflection.underscore(name));
+        await knex.destroy();
         console.log(chalk.green(file));
         break;
     }
-    default: {
+    default:
         console.error(chalk.red('unknown type'));
-    }
     }
 }
